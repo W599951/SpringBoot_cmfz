@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.CounterDao">
+    <insert id="insert" parameterType="com.baizhi.entity.Counter">
+        insert into t_counter values(#{id},#{title},#{count},#{user_id},#{course_id},#{date})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        delete from t_counter where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="com.baizhi.entity.Counter">
+        update t_counter set title=#{title},count=#{count},user_id=#{user_id},course_id=#{course_id} where id=#{id}
+    </update>
+
+    <select id="findAll" resultType="com.baizhi.entity.Counter">
+        select id,title,count,user_id,course_id,date from t_counter
+    </select>
+
+    <select id="queryOne" parameterType="String" resultType="com.baizhi.entity.Counter">
+        select id,title,count,user_id,course_id,date from t_counter where id=#{id}
+    </select>
+    
+    <select id="findByPage" resultType="com.baizhi.entity.Counter">
+        select id,title,count,user_id,course_id,date from t_counter limit #{start},#{rows}
+    </select>
+
+    <select id="findTotals" resultType="long">
+        select count(a.id) from t_counter c inner join t_counter a on c.id=a.id
+    </select>
+
+
+</mapper>

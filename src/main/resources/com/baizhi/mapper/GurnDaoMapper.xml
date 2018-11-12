@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.GurnDao">
+    <insert id="insert" parameterType="com.baizhi.entity.Gurn">
+        insert into t_gurn values(#{id},#{name},#{headPic},#{sex})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        delete from t_gurn where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="com.baizhi.entity.Gurn">
+        update t_gurn set name=#{name},sex=#{sex} where id=#{id}
+    </update>
+
+    <select id="findAll" resultType="com.baizhi.entity.Gurn">
+        select id,name,headPic,sex from t_gurn
+    </select>
+
+    <select id="queryOne" parameterType="String" resultType="com.baizhi.entity.Gurn">
+        select id,name,headPic,sex from t_gurn where id=#{id}
+    </select>
+    
+    <select id="findByPage" resultType="com.baizhi.entity.Gurn">
+        select id,name,headPic,sex from t_gurn limit #{start},#{rows}
+    </select>
+
+    <select id="findTotals" resultType="long">
+        select count(a.id) from t_gurn c inner join t_gurn a on c.id=a.id
+    </select>
+
+
+</mapper>

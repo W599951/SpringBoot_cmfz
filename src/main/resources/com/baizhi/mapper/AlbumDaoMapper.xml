@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AlbumDao">
+
+    <resultMap id="map" type="com.baizhi.entity.Album">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="coverImg" column="coverImg"/>
+        <result property="count" column="count"/>
+        <result property="author" column="author"/>
+        <result property="broadCast" column="broadCast"/>
+        <result property="content" column="content"/>
+        <result property="releaseDate" column="releaseDate"/>
+        <collection property="children" ofType="com.baizhi.entity.Chapter">
+            <id property="id" column="cid"/>
+            <result property="title" column="ctitle"/>
+            <result property="size" column="size"/>
+            <result property="duration" column="duration"/>
+            <result property="downLoadPath" column="downLoadPath"/>
+            <result property="upLoadPath" column="upLoadPath"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="findByPage" resultMap="map">
+         select
+         a.id,
+         a.title,
+         a.coverImg,
+         a.count,
+         a.author,
+         a.broadCast,
+         a.content,
+         a.releaseDate,
+         c.id cid,
+         c.title ctitle,
+         c.size,
+         c.duration,
+         c.downLoadPath,
+         c.upLoadDate
+         from t_album a  left join t_chapter c on a.id=c.album_id
+         limit #{start},#{rows}
+    </select>
+        <insert id="insert" parameterType="com.baizhi.entity.Album">
+        insert into t_album values(#{id},#{title},#{coverImg},#{count},#{author},#{broadCast},#{content},#{releaseDate})
+    </insert>
+
+        <delete id="delete" parameterType="String">
+        delete from t_album where id=#{id}
+    </delete>
+
+        <update id="update" parameterType="com.baizhi.entity.Album">
+        update t_album set id=#{id},title=#{title},coverImg=#{coverImg},count=#{count},author=#{author},broadCast=#{broadCast},content=#{content},releaseDate=#{releaseDate} where id=#{id}
+    </update>
+
+        <select id="findAll" resultType="com.baizhi.entity.Album">
+        select id,title,coverImg,count,author,broadCast,content,releaseDate from t_album
+    </select>
+
+        <select id="queryOne" parameterType="String" resultType="com.baizhi.entity.Album">
+        select id,title,coverImg,count,author,broadCast,content,releaseDate from t_album where id=#{id}
+    </select>
+
+        <select id="findTotals" resultType="long">
+        select count(a.id) from t_chapter c inner join t_album a on c.album_id = a.id
+    </select>
+
+
+    </mapper>
